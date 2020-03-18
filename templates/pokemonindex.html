@@ -5,7 +5,7 @@
     <form method='POST' action="{{url_for('pokemonindex')}}">
         {{ form.csrf_token }}
         {{ form.national_index.label}}  {{form.national_index(size=20)}}
-        {{ form.name.label}}  {{form.name(size=20)}}
+        {{ form.pokemon_name.label}}  {{form.pokemon_name(size=20)}}
         {{ form.generation.label}}  {{form.generation(size=20)}}
 
         <input type="submit" value="Add pokemon">
