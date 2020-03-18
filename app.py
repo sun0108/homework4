@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, redirect
+from flask import render_template, redirect,request
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
@@ -43,6 +43,18 @@ def pokemonindex():
         db.session.commit()
         return redirect('/')
     return render_template('pokemonindex.html',form=form,pageTitle='Add pokemons')
+
+
+
+@app.route('/delete_pokemon/<int:InstanceID>',methods=['GET','POST'])
+def delete_pokemon(InstanceID):
+    if request.method=='POST':    
+        pokemon=ysun95_pokemonindex.query.get_or_404(InstanceID)
+        db.session.delete(pokemon)
+        db.session.commit()
+        return redirect('/')
+    else: 
+        return redirect('/')
 
 
 if __name__ == '__main__':

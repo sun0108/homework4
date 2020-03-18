@@ -22,6 +22,12 @@
                 <td> {{row.national_index}}</td>
                 <td> {{row.pokemon_name}}</td>
                 <td> {{row.generation}}</td>
+
+                <td>
+                    <form action="{{url_for('delete_pokemon',InstanceID=row.InstanceID)}}" method="POST">
+                        <input type="submit" value="Delete" />
+                    </form>
+                </td>    
             </tr>   
             {% endfor %} 
         </tbody>
