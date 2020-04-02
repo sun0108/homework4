@@ -1,7 +1,7 @@
 from flask import Flask
-from flask import render_template, redirect,request
+from flask import render_template, redirect,request,flash,url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField , SubmitField, IntegerField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
@@ -25,6 +25,7 @@ class ysun95_pokemonindex(db.Model):
 
 
 class Pokemonindex(FlaskForm):
+    InstanceID=IntegerField('InstanceID :')
     national_index=StringField('National index number:',validators=[DataRequired()])
     pokemon_name=StringField('name:',validators=[DataRequired()])
     generation=StringField('Generation:',validators=[DataRequired()])
@@ -55,6 +56,31 @@ def delete_pokemon(InstanceID):
         return redirect('/')
     else: 
         return redirect('/')
+
+
+@app.route('/pokemons/<int:InstanceID>',methods=['GET','POST'])
+def get_pokemon(InstanceID):
+    pokemons=ysun95_pokemonindex.query.get_or_404(InstanceID)
+    return render_template('pokemons.html',form=pokemons,pageTitle="Pokemons details", legend='Pokemon Details')
+
+@app.route('/pokemons/<int:InstanceID>/update',methods=['GET','POST'])
+def update_pokemon(InstanceID):
+    pokemons=ysun95_pokemonindex.query.get_or_404(InstanceID)
+    form=Pokemonindex()
+    
+    if form.validate_on_submit():
+        pokemons.national_index=form.national_index.data
+        pokemons.pokemon_name=form.pokemon_name.data
+        pokemons.generation=form.generation.data
+        db.session.commit()
+        return redirect(url_for('get_pokemon',InstanceID=pokemons.InstanceID))
+    form.InstanceID.data=pokemons.InstanceID
+    form.pokemon_name.data=pokemons.pokemon_name
+    form.national_index.data=pokemons.national_index
+    form.generation.data=pokemons.generation
+    return render_template('update_pokemon.html',form=form,pageTitle='Update pokemon',legend='Updata a pokemon')
+
+
 
 
 if __name__ == '__main__':

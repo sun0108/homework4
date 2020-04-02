@@ -8,7 +8,6 @@
     <table>
         <thead>
             <tr>
-                <th>InstanceID</th>
                 <th>national_index</th>
                 <th>pokemon_name</th>
                 <th>generation</th>
@@ -18,14 +17,13 @@
         <tbody>
             {% for row in pokemontable %}
             <tr>
-                <td> {{row.InstanceID}}</td>
                 <td> {{row.national_index}}</td>
                 <td> {{row.pokemon_name}}</td>
                 <td> {{row.generation}}</td>
 
                 <td>
-                    <form action="{{url_for('delete_pokemon',InstanceID=row.InstanceID)}}" method="POST">
-                        <input type="submit" value="Delete" />
+                    <form action="{{url_for('get_pokemon',InstanceID=row.InstanceID)}}" method="POST">
+                        <input type="submit" value="Details" />
                     </form>
                 </td>    
             </tr>   
