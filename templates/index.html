@@ -3,7 +3,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
+<form method="POST">
+    <input type="text" autfocus="autofocus" name="search_string" >
+    <input type="submit" formaction="/search" value="Search">
+</form>
+
+
 <p><a href="{{url_for('.pokemonindex')}}"> Go to add another pokemon </a></p>
+    <h3>{{legend}}</h3>
 {% if pokemontable %}
     <table>
         <thead>

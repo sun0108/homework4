@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 import pymysql
 import secrets
 import os
+from sqlalchemy import or_
 
 dbuser=os.environ.get('DBUSER')
 dbpass=os.environ.get('DBPASS')
@@ -40,7 +41,22 @@ class Pokemonindex(FlaskForm):
 @app.route('/')
 def index():
     all_pokemons=ysun95_pokemonindex.query.all()
-    return render_template('index.html',pokemontable=all_pokemons ,pageTitle='Sun\'s favourite pokemons')
+    return render_template('index.html',pokemontable=all_pokemons,pageTitle='Sun\'s favourite pokemons')
+
+
+
+@app.route('/search',methods=['GET','POST'])
+def search():
+        if request.method=="POST":
+            form=request.form
+            search_value=form['search_string']
+            search="%{}%".format(search_value)
+            results=ysun95_pokemonindex.query.filter(or_(ysun95_pokemonindex.pokemon_name.like(search),
+                                                          ysun95_pokemonindex.national_index.like(search),
+                                                          ysun95_pokemonindex.generation.like(search))).all()
+            return render_template('index.html',pokemontable=results,pageTitle="Sun's Pokemon index",legend="Search results")
+        else:
+            return redirect('/')
 
 @app.route('/pokemonindex',methods=['GET','POST'])
 def pokemonindex():
