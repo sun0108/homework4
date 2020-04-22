@@ -3,18 +3,32 @@
 <div>
     <h3>{{legend}}</h3>
     <form method='POST' action="">
-        {{ form.csrf_token }}
-        {{ form.InstanceID.label}}  {{form.InstanceID(size=5, readonly=true)}}
-        {{ form.national_index.label}}  {{form.national_index(size=20)}}
-        {{ form.pokemon_name.label}}  {{form.pokemon_name(size=20)}}
-        {{ form.generation.label}}  {{form.generation(size=20)}}
-
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">InstanceID</th>
+                    <th scope="col">NationalIndex</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Generation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {{ form.csrf_token }}
+                    <td>{{form.InstanceID(size=5, readonly=true)}}</td>
+                    <td>{{form.national_index(size=20)}}</td>
+                    <td>{{form.pokemon_name(size=20)}}</td>
+                    <td>{{form.generation(size=20)}} </td>
+                </tr> 
+            </tbody>
+            </table>
         <input type="submit" value="Save">
-
+    
     </form>
-
-
 
 
 </div>
 {% endblock %}
+
+
+
